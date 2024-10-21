@@ -1,27 +1,50 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+// Fungsi untuk format harga ke Rupiah
+const formatRupiah = (number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(number);
+};
 
 const Hero = () => {
-  const [priceValue, setPriceValue] = useState(0);
+  const [priceValue, setPriceValue] = useState(300000);
+
+  // Inisialisasi AOS di dalam useEffect
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Durasi animasi
+      once: true, // Animasi hanya sekali
+    });
+  }, []);
 
   return (
     <div className="bg-black/20 h-full">
       <div className="h-full flex justify-center items-center p-4 bg-primary/10">
         <div className="container grid grid-cols-1 gap-4">
-          {/* Bagian Teks */}
           <div className="text-white">
-            <p>Paket Kami</p>
+            <p data-aos="fade-up" className="text-sm">
+              Our Packages
+            </p>
             <p
               data-aos="fade-up"
               data-aos-delay="300"
               className="font-bold text-3xl"
             >
-              Cari Destinasi Anda
+              Search Your Destination
             </p>
           </div>
 
           {/* Bagian Form */}
-          <div className="space-y-4 bg-white rounded-md p-4 relative">
+          <div
+            data-aos="fade-up"
+            data-aos-delay="600"
+            className="space-y-4 bg-white rounded-md p-4 relative"
+          >
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-3">
               {/* Input Destinasi */}
               <div>
@@ -57,7 +80,9 @@ const Hero = () => {
                 <label htmlFor="maxPrice" className="opacity-70">
                   <div className="flex justify-between items-center">
                     <p>Harga Maksimal</p>
-                    <p className="font-bold text-xl">Rp {priceValue}</p>
+                    <p className="font-bold text-xl">
+                      {formatRupiah(priceValue)}
+                    </p>
                   </div>
                 </label>
                 <div className="bg-gray-100 rounded-full p-2 mb-2 flex items-center justify-center">
@@ -67,7 +92,7 @@ const Hero = () => {
                     id="maxPrice"
                     className="appearance-none w-full bg-gradient-to-r from-primary to-secondary h-2 
                     rounded-full my-2"
-                    min="150000"
+                    min="300000"
                     max="10000000"
                     value={priceValue}
                     step="10000"
@@ -75,6 +100,12 @@ const Hero = () => {
                   />
                 </div>
               </div>
+            </div>
+            <div
+              className="bg-gradient-to-r from-primary to-secondary text-white
+            hover:scale-105 px-4 py-2 rounded-full duration-200 absolute -bottom-5 left-1/2 -translate-x-1/2 cursor-pointer"
+            >
+              Cari Sekarang
             </div>
           </div>
         </div>
